@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-
+    const navigate = useNavigate();
     const [msg, setMsg] = useState("");
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("");
@@ -17,24 +18,29 @@ const Login = () => {
                 }
             })
             console.log(response)
-            let token = response.data;
+            let token = response.data.token;
             console.log(token);
 
-            localStorage.setItem("token", token);
+            localStorage.setItem('token', token);
 
            let details = await axios.get("http://localhost:8080/api/user/details",{
             headers:{ "Authorization":  "Bearer " + token}
            })
 
            console.log(details);
+            let name = details.data.fullName;
+            console.log(name);
+            localStorage.setItem('name', name);
            const role = details.data.user.role;
 
            switch(role){
                 case "LEARNER":
-                    console.log("LEARNER DASHBOARD");
+                    // console.log("LEARNER DASHBOARD");
+                    navigate("/learner")
                     break;
                 case "AUTHOR":
-                    console.log("AUTHOR DASHBOARD");
+                    // console.log("AUTHOR DASHBOARD");
+                    navigate("/author")
                     break;
                 case "EXECUTIVE":
                     console.log("EXECUTIVE DASHBOARD");
