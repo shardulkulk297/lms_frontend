@@ -1,4 +1,5 @@
 import AuthorDashboard from "./components/author/AuthorDashboard"
+import CourseDetails from "./components/author/CourseDetails"
 import Courses from "./components/author/Courses"
 import Enrollments from "./components/author/Enrollments"
 import Profile from "./components/author/Profile"
@@ -18,6 +19,7 @@ function App() {
           <Route path="courses" element={<Courses />} />
           <Route path="enrollments" element={<Enrollments />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="course-details/:cid" element={<CourseDetails />} />
         </Route>
         <Route path="/learner">
           <Route index element={<LearnerDashboard />} />

@@ -10,7 +10,7 @@ const Navbar = () => {
     }
     return (
       
-            <nav className="navbar navbar-light bg-light justify-content-between" style={{ paddingRight: '30px', display:'flex', justifyContent: 'center', alignContent:'center' }} >
+            <nav className="navbar navbar-light bg-light justify-content-between" style={{ paddingRight: '30px'}} >
                 <div className="navbar-brand "> </div>
                 <div className="form-inline mt-2 mb-4 ">
                     Welcome, {name}
