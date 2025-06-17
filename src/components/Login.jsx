@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { setUserDetails } from '../store/actions/UserAction';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
     const navigate = useNavigate();
     const [msg, setMsg] = useState("");
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("");
-
+    const dispatch = useDispatch();
     const login = async () => {
         const encodedString = window.btoa(username + ":" + password);
 
@@ -23,17 +25,31 @@ const Login = () => {
 
             localStorage.setItem('token', token);
 
-           let details = await axios.get("http://localhost:8080/api/user/details",{
-            headers:{ "Authorization":  "Bearer " + token}
-           })
+            let details = await axios.get("http://localhost:8080/api/user/details", {
+                headers: { "Authorization": "Bearer " + token }
+            })
 
-           console.log(details);
-            let name = details.data.fullName;
-            console.log(name);
-            localStorage.setItem('name', name);
-           const role = details.data.user.role;
+            //    console.log(details);
+            //     let name = details.data.fullName;
+            //     console.log(name);
+            //     localStorage.setItem('name', name);
+            //    const role = details.data.user.role;
 
-           switch(role){
+            /*
+            1. Here instead of using localStorage for name and calling details api everytime for the details we are storing the details like role and username in the store
+            2. We can access it from anywhere.
+            3. We have wrapped our main app component with the store.js which will hold all the states like user which we can use throughout the app
+            */
+
+            let user = {
+                'username': username,
+                'role': details.data.user.role
+            }
+            setUserDetails(dispatch)(user);
+
+            const role = details.data.user.role;
+
+            switch (role) {
                 case "LEARNER":
                     // console.log("LEARNER DASHBOARD");
                     navigate("/learner")
@@ -47,7 +63,7 @@ const Login = () => {
                     break;
                 default:
                     setMsg("SOMETHING WENT WRONG");
-                    
+
             }
 
             setMsg("Login Successfull");

@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllCourses } from '../../store/actions/CourseAction';
 
 const Stats = () => {
+   const courses = useSelector(state => state.courses.courses)
+   //const courses = useState(useSelector(state=>state.courses.courses))
+  const dispatch = useDispatch();
+  useEffect(()=>{
+
+    getAllCourses(dispatch)
+    
+  },[]) 
   return (
       <div>
+            {
+              courses.map((c, index)=>(
+                <div key={index}>
+
+                  <li>{c.title}</li>
+
+                </div>
+              ))
+            }
             <h1>Stats</h1>
             <div className="col-lg-8 col-lg-offset-2">
                 <h1 className="text-3xl font-bold mb-4">Fancy Toggle Sidebar Navigation</h1>
